@@ -45,7 +45,7 @@
             <input type="range" id="dashboard-brightness" min="-100" max="100" value="-50" />
 
             <label>模糊</label>
-            <input type="range" id="dashboard-blur-step" min="0" max="100" value="20" />
+            <input type="range" id="dashboard-blur-passes" min="0" max="100" value="20" />
           </div>
           
           <h3>噗文背景</h3>
@@ -54,7 +54,7 @@
             <input type="range" id="plurk-brightness" min="-100" max="100" value="50" />
             
             <label>模糊</label>
-            <input type="range" id="plurk-blur-step" min="0" max="100" value="20" />
+            <input type="range" id="plurk-blur-passes" min="0" max="100" value="20" />
           </div>
 
           <button type="submit" class="btn btn-lg btn-primary">生成</button>
@@ -221,11 +221,7 @@
             var filters = [];
             var blur = new PIXI.filters.BlurFilter();
             blur.blur = 1;
-            var step = parseInt(document.getElementById(key + '-blur-step').value);
-
-            for (var i = 0; i < step; i++) {
-                filters.push(blur);
-            }
+            blur.passes = parseInt(document.getElementById(key + '-blur-passes').value);
 
             return filters;
         }
