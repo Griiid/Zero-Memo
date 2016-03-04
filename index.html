@@ -225,12 +225,12 @@
         }
 
         function makeBlurFilters(key) {
-            var filters = [];
-            var blur = new PIXI.filters.BlurFilter();
-            blur.blur = 1;
-            blur.passes = parseInt(document.getElementById(key + '-blur-passes').value);
+            var blurX = new PIXI.filters.BlurXFilter();
+            var blurY = new PIXI.filters.BlurYFilter();
+            blurX.blur = blurY.blur = 1;
+            blurX.passes = blurY.passes = parseInt(document.getElementById(key + '-blur-passes').value);
 
-            return filters;
+            return [blurX, blurY];
         }
 
         function makeFilters(key) {
