@@ -1,8 +1,8 @@
 const Promise = require('bluebird');
 
-const Renderer = require('./src/renderer');
-const ImageLoader = require('./src/image-loader');
-const replaceBackground = require('./src/postcss-replace-background');
+const Renderer = require('./renderer');
+const ImageLoader = require('./image-loader');
+const replaceBackground = require('./postcss-replace-background');
 
 function getCss() {
     return new Promise(function(resolve, reject) {
