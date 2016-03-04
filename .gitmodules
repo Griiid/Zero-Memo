@@ -1,4 +1,4 @@
 [submodule "zero-memo"]
 	path = zero-memo
-	url = ./
+	url = https://github.com/akira02/Zero-Memo
 	branch = master
