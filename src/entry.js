@@ -7,7 +7,7 @@ const replaceBackground = require('./postcss-replace-background');
 function getCss() {
     return new Promise(function(resolve, reject) {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', './zero-memo/plurk.css');
+        xhr.open('GET', 'https://raw.githubusercontent.com/akira02/Zero-Memo/master/plurk.css');
         xhr.responseType = 'text';
 
         xhr.onload = function() {
