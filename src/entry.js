@@ -1,11 +1,11 @@
-require('babel-polyfill');
+import 'babel-polyfill';
 
-const $ = require('jquery');
 const Promise = require('bluebird');
+import $ from 'jquery';
 
-const Renderer = require('./renderer');
-const ImageLoader = require('./image-loader');
-const replaceBackground = require('./postcss-replace-background');
+import Renderer from './renderer';
+import ImageLoader from './image-loader';
+import replaceBackground from './postcss-replace-background';
 
 function getCss() {
     return new Promise(function(resolve, reject) {
@@ -84,7 +84,7 @@ $('#form').submit(function(event) {
     const loader = new ImageLoader();
 
     getUrlInput($('#image-input')[0])
-        .tap(url => uploadImage(url).then(setImage('timeline')))
+        .tap(url => uploadImage(url).then(setImage('timeline')) )
         .then(loader.load.bind(loader))
         .then(renderer.image.bind(renderer))
         .then(renderer =>

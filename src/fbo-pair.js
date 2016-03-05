@@ -1,6 +1,6 @@
-const createFBO = require('gl-fbo');
+import createFBO from 'gl-fbo';
 
-module.exports = class FBOPair {
+export default class FBOPair {
     constructor() {
         this.args = arguments;
         this.state = 0;

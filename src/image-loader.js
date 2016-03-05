@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
 
-module.exports = class ImageLoader {
+export default class ImageLoader {
     constructor() {
         this.image = new Image();
         this.image.crossOrigin = 'anonymous';

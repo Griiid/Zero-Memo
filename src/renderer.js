@@ -1,11 +1,11 @@
 const Promise = require('bluebird');
 
-const createBuffer = require('gl-buffer');
-const createShader = require('gl-shader');
-const createTexture = require('gl-texture2d');
+import createBuffer from 'gl-buffer';
+import createShader from 'gl-shader';
+import createTexture from 'gl-texture2d';
 
-const FBOPair = require('./fbo-pair');
-const makeBlurShader = require('./blur-shader');
+import FBOPair from './fbo-pair';
+import makeBlurShader from './blur-shader';
 
 const shaderSource = {
     vertex:  require('./shaders/vertex-shader.vert'),
@@ -25,7 +25,7 @@ const _blurSigma = Symbol('_blurSigma');
 
 const _shaders = Symbol('_shaders');
 
-module.exports = class Renderer {
+export default class Renderer {
     constructor() {
         this.canvas = document.createElement('canvas');
 

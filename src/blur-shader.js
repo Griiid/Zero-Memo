@@ -57,6 +57,6 @@ function generateGlsl(weights, maxRadius) {
     return result;
 }
 
-module.exports = function makeBlurShader(sigma, maxRadius=Math.ceil(sigma * 3)) {
+export default function makeBlurShader(sigma, maxRadius=Math.ceil(sigma * 3)) {
     return generateGlsl(optimize(weights(sigma)), maxRadius);
 }
