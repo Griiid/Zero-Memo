@@ -91,7 +91,7 @@ $('#form').submit(function(event) {
             Promise.map(['dashboard', 'plurk'], key =>
                 renderer
                     .brightness(getBrightness(key))
-                    .blurSigma(getBlurSigma(key))
+                    .blurSigma(getBlurSigma(key) * Math.min.apply(Math, renderer.shape) / 200)
                     .render()
                     .toImage()
                     .then(uploadImage)
