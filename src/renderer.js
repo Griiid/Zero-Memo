@@ -1,16 +1,16 @@
 const Promise = require('bluebird');
 
 const createBuffer = require('gl-buffer');
-const createFBO = require('gl-fbo');
 const createShader = require('gl-shader');
 const createTexture = require('gl-texture2d');
+
+const FBOPair = require('./fbo-pair');
+const makeBlurShader = require('./blur-shader');
 
 const shaderSource = {
     vertex:  require('./shaders/vertex-shader.vert'),
     lighten: require('./shaders/lighten.frag'),
     darken:  require('./shaders/darken.frag'),
-    blurX:   require('./shaders/blurX.frag'),
-    blurY:   require('./shaders/blurY.frag'),
     flipY:   require('./shaders/flipY.frag')
 }
 
@@ -21,10 +21,9 @@ function clear(gl) {
 
 const _brightness = Symbol('_brightness');
 const _brightnessMode = Symbol('_brightnessMode');
-const _blurPasses = Symbol('_blurPasses');
+const _blurSigma = Symbol('_blurSigma');
 
 const _shaders = Symbol('_shaders');
-const _fbos = Symbol('_fbos');
 
 module.exports = class Renderer {
     constructor() {
@@ -62,8 +61,8 @@ module.exports = class Renderer {
         
         return this;
     }
-    blurPasses(value) {
-        this[_blurPasses] = value;
+    blurSigma(value) {
+        this[_blurSigma] = value;
 
         return this;
     }
@@ -86,12 +85,12 @@ module.exports = class Renderer {
 
         return this;
     }
-    getShader(name) {
+    getShader(name, source=shaderSource[name]) {
         if (this[_shaders][name]) return this[_shaders][name];
-        let shader = createShader(
+        const shader = createShader(
                 this.gl,
                 shaderSource.vertex,
-                shaderSource[name]);
+                source);
         shader.attributes.a_position.location = 0;
         return this[_shaders][name] = shader;
     }
@@ -129,48 +128,39 @@ module.exports = class Renderer {
 
         let texture = this.texture;
 
-        const fbos = [];
-        let state = 0;
-        const nextFBO = _ => {
-            state ^= 1;
-            return fbos[state] = fbos[state] || createFBO(gl, this.shape, {depth: false});
-        }
+        const fboPair = new FBOPair(gl, this.shape, { depth: false });
 
         if (this[_brightnessMode] != undefined) {
-            console.log(`apply ${this[_brightnessMode]} ${this[_brightness]}`);
             const shader = this.getShader(this[_brightnessMode]);
 
             shader.bind();
             shader.uniforms.amount = this[_brightness];
 
-            let fbo = nextFBO();
+            const fbo = fboPair.next().value;
 
             this.applyFilter(texture, shader, fbo);
 
             texture = fbo.color[0];
         }
 
-        if (this[_blurPasses]) {
-            console.log(`apply blur * ${this[_blurPasses]} times`);
+        if (this[_blurSigma]) {
+            const sigma = this[_blurSigma];
+            const source = makeBlurShader(sigma);
+            const blurX = this.getShader(`blurX-${sigma}`, source.x);
+            const blurY = this.getShader(`blurY-${sigma}`, source.y);
 
-            const blurX = this.getShader('blurX');
-            const blurY = this.getShader('blurY');
+            const fbo1 = fboPair.next().value;
+            const fbo2 = fboPair.next().value;
 
-            let fbo1 = nextFBO();
-            let fbo2 = nextFBO();
+            this.applyFilter(texture, blurX, fbo1);
+            this.applyFilter(fbo1.color[0], blurY, fbo2);
 
-            for (let i = this[_blurPasses]; i > 0; i--) {
-                this.applyFilter(texture, blurX, fbo1);
-                this.applyFilter(fbo1.color[0], blurY, fbo2);
-
-                texture = fbo2.color[0];
-            }
+            texture = fbo2.color[0];
         }
 
         this.applyFilter(texture, this.getShader('flipY'));
 
-        if (fbos[0]) fbos[0].dispose();
-        if (fbos[1]) fbos[1].dispose();
+        fboPair.dispose();
 
         gl.finish();
 

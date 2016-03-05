@@ -1,3 +1,6 @@
+require('babel-polyfill');
+
+const $ = require('jquery');
 const Promise = require('bluebird');
 
 const Renderer = require('./renderer');
@@ -60,8 +63,8 @@ function getBrightness(key) {
     return parseInt(document.getElementById(key + '-brightness').value) / 100;
 }
 
-function getBlurPasses(key) {
-    return parseInt(document.getElementById(key + '-blur-passes').value);
+function getBlurSigma(key) {
+    return parseInt(document.getElementById(key + '-blur-sigma').value) / 100;
 }
 
 const textarea = document.getElementById("result");
@@ -88,7 +91,7 @@ $('#form').submit(function(event) {
             Promise.map(['dashboard', 'plurk'], key =>
                 renderer
                     .brightness(getBrightness(key))
-                    .blurPasses(getBlurPasses(key))
+                    .blurSigma(getBlurSigma(key))
                     .render()
                     .toImage()
                     .then(uploadImage)

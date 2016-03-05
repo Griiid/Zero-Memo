@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Github page for Zero-Memo",
   "dependencies": {
+    "babel-polyfill": "^6.6.1",
     "bluebird": "^3.3.3",
     "gl-buffer": "^2.1.2",
     "gl-fbo": "^2.0.5",
