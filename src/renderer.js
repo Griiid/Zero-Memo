@@ -11,7 +11,7 @@ const shaderSource = {
     vertex:  require('./shaders/vertex-shader.vert'),
     lighten: require('./shaders/lighten.frag'),
     darken:  require('./shaders/darken.frag'),
-    flipY:   require('./shaders/flipY.frag')
+    flipY:   require('./shaders/flip-y.frag')
 }
 
 function clear(gl) {
