@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 
 module.exports = {
-    entry: './src/entry.js',
+    entry: './src/app.js',
     output: {
         path: __dirname,
         filename: 'bundle.js'
@@ -12,11 +12,9 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'},
-            { test: /\.(frag|vert)$/, exclude: /node_modules/, loader: 'raw' }
+            { test: /\.js?$/, exclude: /node_modules/, loader: 'babel-loader'},
+            { test: /\.(frag|vert)$/, exclude: /node_modules/, loader: 'raw' },
+            { test: /\.jade$/, exclude: /node_modules/, loader: 'jade' },
         ]
-    },
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin()
-    ]
+    }
 }
