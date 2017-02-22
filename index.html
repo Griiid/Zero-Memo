@@ -23,6 +23,62 @@
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Zero-Memo模糊背景產生器<small>beta</small></h1>
+    
+    <hr />
+    
+    <div class="row">
+      <div class="col-md-6">
+        <h2>參數</h2>
+        <form id="form">
+
+          <h3>原圖(河道背景)</h3>
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-btn">
+                <select id="image-input-type" class="btn">
+                  <option value="url">網址</option>
+                  <option value="file">檔案</option>
+                </select>
+              </span>
+              <input type="url" id="image-input" class="form-control" required="required" />
+            </div>  <!-- div.input-group -->
+          </div>  <!-- div.form-group -->
+          
+          <h3>資訊面板背景</h3>
+          <div class="form-group">
+            <label>亮度</label>
+            <input type="range" id="dashboard-brightness" min="-100" max="100" value="-50" />
+
+            <label>模糊</label>
+            <input type="range" id="dashboard-blur-sigma" min="0" max="1000" value="200" />
+          </div>
+          
+          <h3>噗文背景</h3>
+          <div class="form-group">
+            <label>亮度</label>
+            <input type="range" id="plurk-brightness" min="-100" max="100" value="50" />
+            
+            <label>模糊</label>
+            <input type="range" id="plurk-blur-sigma" min="0" max="1000" value="200" />
+          </div>
+
+          <button type="submit" class="btn btn-lg btn-primary">生成</button>
+          <span>((要等蠻久的，好了我會彈個提示</span>
+        <form>
+      </div>
+      <div class="col-md-6">
+        <h2>預覽</h2>
+        
+
+        <h2>生成物</h2>
+        <textarea id="result" class="form-control" style="max-height:500px;"></textarea>
+        <button id="copy" type="button" class="btn btn-default">點我複製</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
