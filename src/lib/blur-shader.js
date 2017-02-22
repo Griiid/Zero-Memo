@@ -38,20 +38,20 @@ function generateGlsl(weights, maxRadius) {
     for (let { weight, offset } of weights) {
         if (offset > maxRadius) break;
         result.x += `
-            color += pow(texture2D(texture, coord - vec2(${ offset }, 0.0) / shape), 2) * ${weight};
-            color += pow(texture2D(texture, coord + vec2(${ offset }, 0.0) / shape), 2) * ${weight};
+            color += texture2D(texture, coord - vec2(${ offset }, 0.0) / shape) * ${weight};
+            color += texture2D(texture, coord + vec2(${ offset }, 0.0) / shape) * ${weight};
         `;
         result.y += `
-            color += pow(texture2D(texture, coord - vec2(0.0, ${ offset }) / shape), 2) * ${weight};
-            color += pow(texture2D(texture, coord + vec2(0.0, ${ offset }) / shape), 2) * ${weight};
+            color += texture2D(texture, coord - vec2(0.0, ${ offset }) / shape) * ${weight};
+            color += texture2D(texture, coord + vec2(0.0, ${ offset }) / shape) * ${weight};
         `;
     }
     result.x += `
-            gl_FragColor = sqrt(color);
+            gl_FragColor = color;
         }
     `;
     result.y += `
-            gl_FragColor = sqrt(color);
+            gl_FragColor = color;
         }
     `;
     return result;
