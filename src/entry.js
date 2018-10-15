@@ -31,7 +31,7 @@ function uploadImage(image) {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'https://api.imgur.com/3/image.json');
         xhr.responseType = 'json';
-        xhr.setRequestHeader('Authorization', 'Client-ID f2c48785e9ed652');
+        xhr.setRequestHeader('Authorization', 'Client-ID f28cb80465f9e25');
 
         xhr.onload = _ => xhr.response.success ?
             resolve(xhr.response.data.link) :
