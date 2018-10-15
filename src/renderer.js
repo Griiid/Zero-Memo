@@ -9,8 +9,7 @@ import makeBlurShader from './blur-shader';
 
 const shaderSource = {
     vertex:  require('./shaders/vertex-shader.vert'),
-    lighten: require('./shaders/lighten.frag'),
-    darken:  require('./shaders/darken.frag'),
+    brightness: require('./shaders/brightness.frag'),
     flipY:   require('./shaders/flip-y.frag')
 }
 
@@ -131,10 +130,11 @@ export default class Renderer {
         const fboPair = new FBOPair(gl, this.shape, { depth: false });
 
         if (this[_brightnessMode] != undefined) {
-            const shader = this.getShader(this[_brightnessMode]);
+            const shader = this.getShader('brightness')
 
             shader.bind();
             shader.uniforms.amount = this[_brightness];
+            shader.uniforms.target = this[_brightnessMode] == 'darken' ? 0 : 1;
 
             const fbo = fboPair.next().value;
 
